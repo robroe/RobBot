@@ -31,7 +31,7 @@ public class BasicLuisDialog : LuisDialog<object>
     {
         //Call API 
         
-        await context.PostAsync($"You have 1232 open activities"); 
+        await context.PostAsync($"Hey {context.Activity.From.Name} You have 1232 open activities"); 
         
         context.Wait(MessageReceived);
     }
