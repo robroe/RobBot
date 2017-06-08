@@ -7,6 +7,8 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
 using Microsoft.Bot.Builder.Luis.Models;
 
+using Newtonsoft.Json;
+
 // For more information about this template visit http://aka.ms/azurebots-csharp-luis
 [Serializable]
 public class BasicLuisDialog : LuisDialog<object>
@@ -42,19 +44,8 @@ public class BasicLuisDialog : LuisDialog<object>
 		{
 		  Attachment = new FacebookAttachment()
 		  {
-			Payload = new FacebookGenericTemplate()
-			{
-			  Elements = new object[]
-			  {
-				new FacebookGenericTemplateContent()
-				{
-				  Buttons = new[]
-				  {
-					  new FacebookShareButton()
-				  }
-				}
-			  }
-			}
+			Type = "image",
+			Payload = new FacebookImage() { Url = "https://media.giphy.com/media/3ornjSL2sBcPflIDiU/giphy.gif"}
 		  }
 		}; 
         
@@ -83,4 +74,44 @@ public class BasicLuisDialog : LuisDialog<object>
           //  await context.PostAsync($"Boom {ex}"); 
         }
     }
+}
+
+public class FacebookAttachment
+{
+	public FacebookAttachment()
+	{
+		this.Type = "template";
+	}
+
+	[JsonProperty("type")]
+	public string Type { get; set; }
+
+	[JsonProperty("payload")]
+	public dynamic Payload { get; set; }
+
+	//make sure ToString converts the payload
+	public override string ToString()
+	{
+		return this.Payload.ToString();
+	}
+}
+
+public class FacebookChannelData
+{
+	[JsonProperty("attachment")]
+	public FacebookAttachment Attachment
+	{
+		get;
+		internal set;
+	}
+}
+
+public class FacebookImage
+{
+	[JsonProperty("url")]
+	public string Url
+	{
+		get;
+		internal set;
+	}
 }
