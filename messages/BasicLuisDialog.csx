@@ -26,7 +26,7 @@ public class BasicLuisDialog : LuisDialog<object>
 
     // Go to https://luis.ai and create a new intent, then train/publish your luis app.
     // Finally replace "MyIntent" with the name of your newly created intent in the following handler
-    [LuisIntent("Activity")]
+    [LuisIntent("activity")]
     public async Task ActivityIntent(IDialogContext context, LuisResult result)
     {
         //Call API 
@@ -36,7 +36,7 @@ public class BasicLuisDialog : LuisDialog<object>
         context.Wait(MessageReceived);
     }
     
-    [LuisIntent("Applications")]
+    [LuisIntent("applications")]
     public async Task ApplicationsIntent(IDialogContext context, LuisResult result)
     {
         await context.PostAsync($"You have 445 applications assigned."); 
