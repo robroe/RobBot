@@ -19,6 +19,7 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
     {
         // Deserialize the incoming activity
         string jsonContent = await req.Content.ReadAsStringAsync();
+		log.Info($"{jsonContent}");
         var activity = JsonConvert.DeserializeObject<Activity>(jsonContent);
         
         // authenticate incoming request and add activity.ServiceUrl to MicrosoftAppCredentials.TrustedHostNames
