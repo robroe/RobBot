@@ -28,10 +28,8 @@ public class BasicLuisDialog : LuisDialog<object>
     // Finally replace "MyIntent" with the name of your newly created intent in the following handler
     [LuisIntent("activity")]
     public async Task ActivityIntent(IDialogContext context, LuisResult result)
-    {
-        //Call API 
-        
-        await context.PostAsync($"Hey {context.Activity.From.Name} You have 1232 open activities"); 
+    {       
+        await context.PostAsync($"Hey {context?.Activity?.From?.Name} You have 1231 open activities"); 
         
         context.Wait(MessageReceived);
     }
