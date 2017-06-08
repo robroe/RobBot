@@ -29,7 +29,7 @@ public class BasicLuisDialog : LuisDialog<object>
     [LuisIntent("activity")]
     public async Task ActivityIntent(IDialogContext context, LuisResult result)
     {       
-        await context.PostAsync($"Hey, You have 1231 open activities"); 
+        await context.PostAsync($"Hey {GetNameFromContext(context)}, You have 1231 open activities"); 
         
         context.Wait(MessageReceived);
     }
@@ -37,11 +37,16 @@ public class BasicLuisDialog : LuisDialog<object>
     [LuisIntent("applications")]
     public async Task ApplicationsIntent(IDialogContext context, LuisResult result)
     {
-        await context.PostAsync($"{context.Activity.From} You have 445 applications assigned."); 
+        await context.PostAsync($"{GetNameFromContext(context)} You have 445 applications assigned."); 
         
         context.Wait(MessageReceived);
     }
     
+	public string GetNameFromContext(IDialogContext context)
+	{
+		return context.Activity.From.Name;
+	}
+	
     public async Task DoStuff()
     {
         var getApplicationActivitiesRequest = new HttpRequestMessage(HttpMethod.Post, "http://applications.proxy.zuto.network"); 
