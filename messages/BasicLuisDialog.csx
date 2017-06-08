@@ -37,8 +37,30 @@ public class BasicLuisDialog : LuisDialog<object>
     [LuisIntent("applications")]
     public async Task ApplicationsIntent(IDialogContext context, LuisResult result)
     {
-        await context.PostAsync($"{GetNameFromContext(context)} You have 445 applications assigned."); 
+        var reply = context.MakeMessage();
+		reply.ChannelData = new FacebookChannelData()
+		{
+		  Attachment = new FacebookAttachment()
+		  {
+			Payload = new FacebookGenericTemplate()
+			{
+			  Elements = new object[]
+			  {
+				new FacebookGenericTemplateContent()
+				{
+				  Buttons = new[]
+				  {
+					  new FacebookShareButton()
+				  }
+				}
+			  }
+			}
+		  }
+		}; 
         
+		//send message
+		await context.PostAsync(reply);
+
         context.Wait(MessageReceived);
     }
     
