@@ -29,7 +29,7 @@ public class BasicLuisDialog : LuisDialog<object>
     [LuisIntent("activity")]
     public async Task ActivityIntent(IDialogContext context, LuisResult result)
     {       
-        await context.PostAsync($"Hey {context} You have 1231 open activities"); 
+        await context.PostAsync($"Hey, You have 1231 open activities"); 
         
         context.Wait(MessageReceived);
     }
