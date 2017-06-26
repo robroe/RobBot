@@ -21,7 +21,7 @@ public class BasicLuisDialog : LuisDialog<object>
     [LuisIntent("None")]
     public async Task NoneIntent(IDialogContext context, LuisResult result)
     {
-        await context.PostAsync($"You have reached the none intent. You said: {result.Query} yo yo yo"); //
+        await context.PostAsync($"Sorry I didn't quite get that. You can check the status of your application or add cars. You said: {result.Query}"); //
         
         context.Wait(MessageReceived);
     }
@@ -35,8 +35,25 @@ public class BasicLuisDialog : LuisDialog<object>
         
         context.Wait(MessageReceived);
     }
+
+	[LuisIntent("GetStatus")]
+    public async Task GetStatusIntent(IDialogContext context, LuisResult result)
+    {       
+        await context.PostAsync($"Hey {GetNameFromContext(context)}, your application is approved."); 
+        
+        context.Wait(MessageReceived);
+    }
+
+	[LuisIntent("addcar")]
+    public async Task AddCarIntent(IDialogContext context, LuisResult result)
+    {       
+        await context.PostAsync($"Added the car for you."); 
+        
+        context.Wait(MessageReceived);
+    }
     
     [LuisIntent("applications")]
+	[LuisIntent("approved")]
     public async Task ApplicationsIntent(IDialogContext context, LuisResult result)
     {
         var reply = context.MakeMessage();
@@ -58,22 +75,7 @@ public class BasicLuisDialog : LuisDialog<object>
 	public string GetNameFromContext(IDialogContext context)
 	{
 		return context.Activity.From.Name;
-	}
-	
-    public async Task DoStuff()
-    {
-        var getApplicationActivitiesRequest = new HttpRequestMessage(HttpMethod.Post, "http://applications.proxy.zuto.network"); 
-        
-         var httpClient = new HttpClient();
-        try
-        {
-         await httpClient.SendAsync(getApplicationActivitiesRequest);
-        }
-        catch(Exception ex)
-        {
-          //  await context.PostAsync($"Boom {ex}"); 
-        }
-    }
+	}    
 }
 
 public class FacebookAttachment
