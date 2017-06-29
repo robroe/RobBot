@@ -5,7 +5,6 @@ using System.Net.Http;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
-using Microsoft.Bot.Builder.Luis.Extensions;
 using Microsoft.Bot.Builder.Luis.Models;
 
 using Newtonsoft.Json;
@@ -25,14 +24,6 @@ public class BasicLuisDialog : LuisDialog<object>
     public async Task NoneIntent(IDialogContext context, LuisResult result)
     {
         await context.PostAsync($"Sorry I didn't quite get that. You can check the status of your application or add cars. You said: {result.Query}"); //
-        
-        context.Wait(MessageReceived);
-    }
-
-	[LuisIntent("welcome")]
-    public async Task WelcomeIntent(IDialogContext context, LuisResult result)
-    {
-        await context.PostAsync($"Hi {GetNameFromContext(context)}. How can we help you? You can check the status of your application or add cars."); 
         
         context.Wait(MessageReceived);
     }
