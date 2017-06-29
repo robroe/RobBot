@@ -56,8 +56,8 @@ public class BasicLuisDialog : LuisDialog<object>
     public async Task AddCarIntent(IDialogContext context, LuisResult result)
     {       
 		var entity = new EntityRecommendation();
-        result.TryFindEntity("reg", out entity.Entity);
-        await context.PostAsync($"Added the car with reg '{entity}' for you."); 
+        result.TryFindEntity("reg", out entity);
+        await context.PostAsync($"Added the car with reg '{entity.Entity}' for you."); 
         
         context.Wait(MessageReceived);
     }
