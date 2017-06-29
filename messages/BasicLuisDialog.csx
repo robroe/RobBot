@@ -5,6 +5,7 @@ using System.Net.Http;
 using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Luis;
+using Microsoft.Bot.Builder.Luis.Extensions;
 using Microsoft.Bot.Builder.Luis.Models;
 
 using Newtonsoft.Json;
@@ -18,6 +19,8 @@ public class BasicLuisDialog : LuisDialog<object>
         
     }
 
+    // Go to https://luis.ai and create a new intent, then train/publish your luis app.
+    // Finally replace "MyIntent" with the name of your newly created intent in the following handler
     [LuisIntent("None")]
     public async Task NoneIntent(IDialogContext context, LuisResult result)
     {
@@ -26,8 +29,22 @@ public class BasicLuisDialog : LuisDialog<object>
         context.Wait(MessageReceived);
     }
 
-    // Go to https://luis.ai and create a new intent, then train/publish your luis app.
-    // Finally replace "MyIntent" with the name of your newly created intent in the following handler
+	[LuisIntent("welcome")]
+    public async Task WelcomeIntent(IDialogContext context, LuisResult result)
+    {
+        await context.PostAsync($"Hi {GetNameFromContext(context)}. How can we help you? You can check the status of your application or add cars."); 
+        
+        context.Wait(MessageReceived);
+    }
+
+	[LuisIntent("welcome")]
+    public async Task WelcomeIntent(IDialogContext context, LuisResult result)
+    {
+        await context.PostAsync($"Hi {GetNameFromContext(context)}. How can we help you? You can check the status of your application or add cars."); 
+        
+        context.Wait(MessageReceived);
+    }
+
     [LuisIntent("activity")]
     public async Task ActivityIntent(IDialogContext context, LuisResult result)
     {       
@@ -47,7 +64,17 @@ public class BasicLuisDialog : LuisDialog<object>
 	[LuisIntent("addcar")]
     public async Task AddCarIntent(IDialogContext context, LuisResult result)
     {       
-        await context.PostAsync($"Added the car for you."); 
+		var entity = new EntityRecommendation();
+        result.TryFindEntity("reg", out entity.Entity);
+        await context.PostAsync($"Added the car with reg '{entity}' for you."); 
+        
+        context.Wait(MessageReceived);
+    }
+
+	[LuisIntent("booktestdrive")]
+    public async Task BookTestDriveIntent(IDialogContext context, LuisResult result)
+    {
+        await context.PostAsync($"Your test drive has been booked."); 
         
         context.Wait(MessageReceived);
     }
